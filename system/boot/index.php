@@ -1,13 +1,24 @@
 <?php
-define('SYSTEM_START',microtime(true));
-define('SYSTEM_MODE',true);
 /** .-------------------------------------------------------------------
  * |  Software: [HNDK HeadcountSystem]
  * |-------------------------------------------------------------------
  * |    Author: 王迈新
  * | Copyright (c) 2024, www.minitegi.xyz. All Rights Reserved.
  * '-------------------------------------------------------------------*/
+namespace Boot;
 
-// introduction framework
-require __DIR__ . '/boot/index.php';
+require __DIR__ . '/../../vendor/autoload.php';
+
+$msg = '';
+
+if (constant('SYSTEM_MODE') == FALSE) {
+    $msg .= 'The system is temporarily inaccessible!';
+}
+if ($msg) {
+    die('<h1 align="center" style="margin-top: 20px;">' . $msg . '</h1>');
+}
+
+use Boot\App;
+App::start();
+
 ?>

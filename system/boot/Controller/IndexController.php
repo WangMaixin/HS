@@ -1,6 +1,4 @@
 <?php
-define('SYSTEM_START',microtime(true));
-define('SYSTEM_MODE',true);
 /** .-------------------------------------------------------------------
  * |  Software: [HNDK HeadcountSystem]
  * |-------------------------------------------------------------------
@@ -8,6 +6,16 @@ define('SYSTEM_MODE',true);
  * | Copyright (c) 2024, www.minitegi.xyz. All Rights Reserved.
  * '-------------------------------------------------------------------*/
 
-// introduction framework
-require __DIR__ . '/boot/index.php';
+
+namespace Boot\Controller;
+
+use Boot\Controller\Controller;
+
+class IndexController extends Controller {
+    public function Index() {
+        var_dump(Controller::getenv('A'));
+    }
+
+
+}
 ?>

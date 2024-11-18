@@ -1,0 +1,18 @@
+{
+    "name": "30734/headcount-system",
+    "autoload": {
+        "psr-4": {
+            "30734\\HeadcountSystem\\": "src/",
+            "Boot\\": "system/boot"
+        }
+    },
+    "authors": [
+        {
+            "name": "WangMaixin",
+            "email": "3073486251@qq.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
+}
