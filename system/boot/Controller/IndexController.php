@@ -13,7 +13,7 @@ use Boot\Controller\Controller;
 
 class IndexController extends Controller {
     public function Index() {
-        var_dump(Controller::getenv('A'));
+        var_dump('index->index()');
     }
 
 

@@ -14,7 +14,7 @@ use Dotenv\Dotenv;
 
 
 class Controller {
-    public static function run($Limit) {
+    public static function run() {
         self::error(true);
     }
 
