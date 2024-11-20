@@ -4,12 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>河南地矿职业学院 - 人数统计系统</title>
+    <link rel="stylesheet" href="src/css/index.css">
+    <link rel="stylesheet" href="src/css/public.css">
 </head>
 <body>
-    
+    <!-- 获取寝室长短位号、寝室号、楼号、寝室人数、年纪、班级、导员码 -->
+    <!-- 顶部标题栏 -->
+    <div class="top_container">
+        <h2 class="title">学生统计系统</h2>
+    </div>
+    <!-- 表单 -->
+    <div class="from_container flex">
+        <div class="from_input_container">
+            <div class="input_container">
+                <!-- 后续版本检查短位号是否唯一 -->
+                <p class="text">短位号:</p>
+                <input type="number" class="input" id="UserIC" placeholder="四至六位的短位号">
+            </div>
+            <div class="input_container">
+                <!-- 后续版本检查寝室号是否绑定 -->
+                <p class="text">寝室号:</p>
+                <input type="number" class="input" id="dormitoryNumber" placeholder="寝室号">
+            </div>
+            <div class="input_container">
+                <!-- 后续版本检查楼号是否存在 -->
+                <p class="text">楼号:</p>
+                <select class="select" id="buildingNumber">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="2">3</option>
+                    <option value="2">4</option>
+                </select>
+                <!-- <input type="number" class="input" id="buildingNumber" placeholder="楼号"> -->
+            </div>
+            <div class="input_container">
+                <p class="text">寝室人数:</p>
+                <select class="select" id="dormitoriesNumber">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="2">3</option>
+                    <option value="2">4</option>
+                    <option value="2">5</option>
+                    <option value="2">6</option>
+                    <option value="2">7</option>
+                    <option value="2">8</option>
+                </select>
+                <!-- <input type="number" class="input" id="dormitoriesNumber" placeholder="寝室人数"> -->
+            </div>
+            <div class="input_container">
+                <p class="text">年级:</p>
+                <!-- 后续版本代码此处数据从数据库内调取 -->
+                <select class="select" id="grade">
+                    <option value="1">2022</option>
+                    <option value="2">2023</option>
+                    <option value="2">2024</option>
+                </select>
+                <!-- <input type="number" class="input" id="grade" placeholder="年级"> -->
+            </div>
+            <div class="input_container">
+                <!-- 后续版本检查班级是否存在 -->
+                <p class="text">班级:</p>
+                <input type="number" class="input" id="class" placeholder="班级">
+            </div>
+            <div class="input_container">
+                <!-- 后续版本检查导员码是否存在 -->
+                <p class="text">导员码:</p>
+                <input type="number" class="input" id="AdminIC" placeholder="导员码">
+            </div>
+        </div>
+        
+        <div class="button_container">
+            <button class="button" id="submit">提交</button>
+        </div>
+        
+    </div>
     
 
+    <script src="src/frame/jquery.min.js" type="text/javascript"></script>
     <script src="src/js/public.js" type="text/javascript"></script>
+    <script src="src/js/identification.js" type="text/javascript"></script>
     <script type="text/javascript">
         if((navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i))){
             console.log('Mobile');
@@ -20,6 +93,9 @@
         }
         
         console.log(HS.getUniqueDeviceIdentifier());
+
+        identification.run();
+
     </script>
 </body>
 </html>
