@@ -33,4 +33,12 @@ class upload_index {
             $('#UserICSESSION').text(jsonData['UUID']);
         })
     }
+
+    /**
+     * get data base UUID
+     * @return UUID
+     */
+    static getDBUUID() {
+        // $.post('../../system/index.php?p=Identification/getDBUUID',{"UserIC"})
+    }
 }

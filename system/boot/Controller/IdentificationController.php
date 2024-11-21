@@ -61,7 +61,7 @@ class IdentificationController extends Controller {
     /**
      * PUBLIC API
      * get SESSION
-     * @method
+     * @return UUID Session
      */
     public static function getSESSION() {
         session_start();
@@ -80,6 +80,21 @@ class IdentificationController extends Controller {
             );
         }
         echo json_encode($result);
+    }
+
+    /**
+     * PUBLIC API
+     * get data base UUID
+     * @return UUID DB
+     */
+    private static function getDBUUID() {
+        $UserIC = $_POST['UserIC'];
+
+        $SQL = "
+        SELECT * FROM Identification WHERE UserIC = ". $UserIC ."
+        ";
+
+        return $SQL;
     }
 
 
