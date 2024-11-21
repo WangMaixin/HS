@@ -64,6 +64,10 @@ class identification {
             dormitoryNumber.length >= 4 || dormitoryNumber.length <= 2 ? filter() : 'true';
             buildingNumber.length > 1 ? filter() : 'true';
 
+            // loading Text
+            document.getElementById('from_container').style.display = 'none';
+            document.getElementById('text').innerHTML  = '提交中，请稍后...';
+
             // Submit to data base
             $.ajax({
                 type: "POST",
@@ -78,9 +82,17 @@ class identification {
                     "AdminIC": AdminIC
                 },
                 success: function(data) {
+
+                    // 后台检测到错误数据
+                    function loginError(data) {
+                        alert('录入错误！错误原因：' + data);
+                        throw new Error('false');
+                    }
+
                     // True
                     var jsonData = JSON.parse(data);
-                    alert( jsonData['code'] ? "录入成功！" : "录入失败！");
+
+                    alert( jsonData['code'] ? "录入成功！" : loginError(jsonData['msg']));
                     
                     // 设置Cookie
                     var expirationDate = new Date();
@@ -92,6 +104,8 @@ class identification {
                 },
                 error: function(jqXHR, textStatus, errorThrown) {   // 错误处理
                     alert('错误！错误代码：' + jqXHR.status + ',错误状态：' + textStatus + ',异常信息：' + errorThrown);
+                    document.getElementById('from_container').style.display = 'flex';
+                    document.getElementById('text').innerHTML  = '';
                 }
             })
         });

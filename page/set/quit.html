@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>凭证删除</title>
+    <link rel="stylesheet" href="../../src/css/public.css">
+</head>
+<body>
+    项目上线后此页面经过服务器认证的用户才能访问
+    <div class="input_container">
+        <input type="number" class="input" id="UserIC">
+    </div>
+    <div class="button_container">
+        <button class="button" id="button">提交</button>
+    </div>
+    
+    <script src="../../src/frame/jquery.min.js"></script>
+    <script>
+        $('#button').click(function() {
+            var UserIC = $('#UserIC').val();
+
+            function filter() {
+                alert('请检查输入的内容！');
+                throw new Error('Please check the input!');
+            }
+
+            
+            UserIC === ''  ? filter() : "true";
+
+            $.get('../../system/index.php?p=Identification/quit', {IC: UserIC}, function(data) {
+                function deleteCookie() {
+                    var UserIC = $('#UserIC').val();
+                    // delete cookie
+                    document.cookie = 'IC=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+
+                    return '1';
+                }
+
+                var jsonData = JSON.parse(data);
+                var result = jsonData? deleteCookie() : 'false';
+                console.log(result);
+                
+                alert($result);
+            })
+        })
+    </script>
+</body>
+</html>

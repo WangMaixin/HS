@@ -11,11 +11,42 @@ namespace Boot\Controller;
 use Boot\Controller\Controller;
 
 class DbController extends Controller {
+
     public static function connect($sql) {
 
         return self::query($sql);
     }
 
+    /**
+     * Check for plagiarism
+     * @method check
+     */
+    public static function checkPlagiarism($Sheet, $Condition, $Data) {
+        $SQL = "
+        SELECT count(*) FROM ". $Sheet ." WHERE ". $Condition ." = ". $Data .";
+        ";
+        $query = self::implementQuery($SQL);
+
+        // 查重逻辑为一个表中只允许出现一行数据，所以从表内返回的值只有0和1
+        $row = $query->fetch_array( MYSQLI_ASSOC )['count(*)'];
+        
+        $row_result = $row > 0 ? false : true;
+
+        return array(
+            'rows' => $row,
+            'status' => $row_result
+        );
+    }
+
+    /**
+     * implement query
+     * @var implementSQL
+     */
+    public static function implementQuery($SQL) {
+        $query_result = self::link()->query($SQL);
+
+        return $query_result;
+    }
 
     /**
      * query database
@@ -48,5 +79,6 @@ class DbController extends Controller {
 
         return $db;
     }
+
 }
 ?>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>河南地矿职业学院 - 人数统计系统</title>
+    <title>凭证录入</title>
     <link rel="stylesheet" href="src/css/index.css">
     <link rel="stylesheet" href="src/css/public.css">
 </head>
@@ -14,7 +14,7 @@
         <h2 class="title">学生统计系统</h2>
     </div>
     <!-- 表单 -->
-    <div class="from_container flex">
+    <div class="from_container flex" id="from_container">
         <div class="from_input_container">
             <div class="input_container">
                 <!-- 后续版本检查短位号是否唯一 -->
@@ -74,10 +74,13 @@
         </div>
         
         <div class="button_container">
+            <!-- 后续版本提交按钮点击后弹出层 -->
             <button class="button" id="submit">提交</button>
         </div>
         
     </div>
+
+    <h2 id="text"></h2>
     
 
     <script src="src/frame/jquery.min.js" type="text/javascript"></script>

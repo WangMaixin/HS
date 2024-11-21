@@ -2,6 +2,7 @@ class upload_index {
 
     static run() {
         $('#UserIC').text(this.getCookie());
+        this.getSESSION();
     }
 
     /**
@@ -19,5 +20,17 @@ class upload_index {
         }
 
         return CookieData;
+    }
+
+    /**
+     * get SESSION
+     * @return SESSION
+     */
+    static getSESSION() {
+        $.get('../../system/index.php?p=Identification/getSESSION',{'session_name' : 'UUID'},function(data) {
+            // ;
+            var jsonData = JSON.parse(data);
+            $('#UserICSESSION').text(jsonData['UUID']);
+        })
     }
 }

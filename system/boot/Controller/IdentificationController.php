@@ -18,7 +18,7 @@ class IdentificationController extends Controller {
 
     /**
      * API: index.html=>identification->run()->submit();
-     */
+     */ 
     public static function login() {
 
         // 获取数据
@@ -30,15 +30,89 @@ class IdentificationController extends Controller {
         $classNumber = $_POST['classNumber'];
         $AdminIC = $_POST['AdminIC'];
 
-        // 后续版本后台也需要进行数据过滤
+        // data filter
+        self::checkContent('UserIC', $UserIC)['status'] ? true : self::filter('短位码重复！');
+        self::dormitoryCheck($dormitoryNumber, $buildingNumber)['status'] ? true : self::filter('寝室已绑定！');
+        // 后续开发添加班级和导员认证
+
 
         $db_result = self::insertDB($UserIC, $dormitoryNumber, $buildingNumber, $dormitoriesNumber, $grade, $classNumber, $AdminIC);
-
         $session_result = self::generateSESSION($db_result['UUID']);
-        echo json_encode($db_result);
-        // echo $UserIC;
 
-        // var_dump(date("Y-m-d H:i:s", self::getSystemTime()));
+        // 测试代码
+        // sleep(3);
+
+        echo json_encode($db_result);
+    }
+
+    /**
+     * 高危方法->此方法会直接操作数据库
+     * API: page/set/quit.html
+     */
+    public static function quit() {
+        $UserIC = $_GET['IC'];
+
+        $db_result = self::deleteDB($UserIC);
+        $result = $db_result ? self::deleteSESSION($UserIC) : 'flase';
+
+        echo json_encode($result);
+    }
+
+    /**
+     * PUBLIC API
+     * get SESSION
+     * @method
+     */
+    public static function getSESSION() {
+        session_start();
+
+        $session_name = $_GET['session_name'];
+
+        if(isset($_SESSION[$session_name])) {
+            $result = array(
+                'code' => true,
+                'UUID' => $_SESSION[$session_name]
+            );
+        }else {
+            $result = array(
+                'code' => false,
+                'UUID' => 'null'
+            );
+        }
+        echo json_encode($result);
+    }
+
+
+    /**
+     * data filter
+     * @method filter
+     */
+    private static function filter($text) {
+        echo json_encode(array(
+            'code' => false,
+            'msg' => $text
+        ));
+        die();
+    }
+
+    /**
+     * Dormitory plagiarism check
+     * @method check
+     */
+    private static function dormitoryCheck($dormitoryNumber, $buildingNumber) {
+        $SQL = "
+        SELECT count(*) FROM Identification WHERE DormitoryCode = ". $dormitoryNumber ." AND BuildingNumber = ". $buildingNumber .";
+        ";
+        $query = DbController::implementQuery($SQL);
+        
+        $row = $query->fetch_array( MYSQLI_ASSOC )['count(*)'];
+        
+        $row_result = $row > 0 ? false : true;
+
+        return array(
+            'rows' => $row,
+            'status' => $row_result
+        );
     }
 
     /**
@@ -100,6 +174,48 @@ class IdentificationController extends Controller {
             'code' => $result,
             'UUID' => $UUID
         );
+    }
+
+    /**
+     * delete data base
+     * @method Delete DB
+     */
+    private static function deleteDB($UserIC) {
+        
+        $SQL = "
+        DELETE FROM Identification WHERE UserIC = ". $UserIC .";
+        ";
+        $result = DbController::connect($SQL);
+
+        return $result;
+    }
+
+    /**
+     * delect SESSION
+     * @method Delete
+     */
+    private static function deleteSESSION($UserIC) {
+        session_start();
+        unset($_SESSION['UUID']);
+        
+        $result = '';
+        if(!isset($_SESSION['UUID'])) {
+            $result = true;
+        }else {
+            $result = false;
+        }
+
+        return $result;
+    }
+
+    /**
+     * check Content
+     * @method check
+     */
+    private static function checkContent($Condition, $Data) {
+        $result = DbController::checkPlagiarism('Identification', $Condition, $Data);
+
+        return $result;
     }
 }
 ?>
